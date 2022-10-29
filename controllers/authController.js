@@ -50,50 +50,32 @@ const signinUser = (user, statuscode, res) => {
   });
 };
 
-const signInNewUser = (user, statuscode, res) => {
-  const token = signInToken(user._id);
-  const cookieOptions = {
-    expires: new Date(
-      Date.now() + process.env.EXPIRES_COOKIE_IN * 24 * 60 * 60 * 1000
-    ),
-
-    httpOnly: true,
-  };
-
-  if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
-
-  res.cookie('jwt', token, cookieOptions);
-
-  user.password = undefined;
-
-  return token;
-};
-
 exports.signupstudent = catchAsync(async (req, res, next) => {
   const newUser = await User.create({
     name: req.body.name,
     email: req.body.email,
     regno: req.body.regno,
+    username: Math.random(20),
     password: req.body.password,
     passwordConfirm: req.body.passwordConfirm,
     passwordChangedAt: req.body.passwordChangedAt,
     temprole: 'Student',
   });
 
-  req.token = signInNewUser(newUser._id, 201, res);
+  //   req.token = signInNewUser(newUser._id, 201, res);
 
-  req.user = newUser;
+  //   req.user = newUser;
 
-  next();
-  // const token = signInToken(newUser._id);
+  //   const token = signInToken(newUser._id);
 
-  // res.status(201).json({
-  //   status: 'success',
-  //   token,
-  //   data: {
-  //     user: newUser,
-  //   },
-  // });
+  res.status(201).json({
+    status: 'success',
+    message: 'Account Created Successfully!',
+    data: {
+      Name: newUser.name,
+      role: newUser.role,
+    },
+  });
 });
 
 exports.signupfaculty = catchAsync(async (req, res, next) => {
@@ -107,20 +89,20 @@ exports.signupfaculty = catchAsync(async (req, res, next) => {
     role: req.body.role,
   });
 
-  req.token = signInNewUser(newUser._id, 201, res);
+  //   req.token = signInNewUser(newUser._id, 201, res);
 
-  req.user = newUser;
+  //   req.user = newUser;
 
-  next();
-  // const token = signInToken(newUser._id);
+  //   const token = signInToken(newUser._id);
 
-  // res.status(201).json({
-  //   status: 'success',
-  //   token,
-  //   data: {
-  //     user: newUser,
-  //   },
-  // });
+  res.status(201).json({
+    status: 'success',
+    message: 'Account created!',
+    data: {
+      user: newUser.name,
+      role: newUser.role,
+    },
+  });
 });
 
 exports.login = catchAsync(async (req, res, next) => {

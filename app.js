@@ -2,6 +2,7 @@ const cors = require('cors');
 const express = require('express');
 const dotenv = require('dotenv');
 
+const userRouter = require('./routes/userRoute');
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 
@@ -20,6 +21,8 @@ app.use((req, res, next) => {
   req.requestBody = new Date().toISOString();
   next();
 });
+
+app.use('/api/v1/users', userRouter);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Couldn't fint the ${req.originalUrl} url`, 404));

@@ -23,7 +23,7 @@ const userSchema = mongoose.Schema(
     },
     regno: {
       type: String,
-      unique: true,
+      unique: [true, 'Must be unique'],
     },
     photo: {
       type: String,
