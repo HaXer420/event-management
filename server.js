@@ -16,7 +16,7 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() => console.log('Server connected with DB Successfully'))
-  .catch((err) => {
+  .catch(() => {
     console.log('Connection Failed');
   });
 
@@ -24,6 +24,6 @@ const port = process.env.PORT || 6000;
 
 console.log(`Server running in ${process.env.NODE_ENV} Mode`);
 
-const server = app.listen(port, () => {
+app.listen(port, () => {
   console.log(`Server is listening on Port ${port}`);
 });
