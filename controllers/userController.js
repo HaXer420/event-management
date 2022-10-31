@@ -55,7 +55,7 @@ exports.getMe = (req, res, next) => {
 exports.unverifiedstudents = catchAsync(async (req, res, next) => {
   const user = await User.aggregate([
     {
-      $match: { isVerified: false },
+      $match: { isVerified: 'false' },
     },
   ]);
 
@@ -73,7 +73,7 @@ exports.StudentVerify = catchAsync(async (req, res, next) => {
     return next(new AppError('No User found with the given ID', 400));
   }
 
-  if (!user.temprole) {
+  if (user.isVerified) {
     return next(new AppError('Student Already Verified', 400));
   }
 
