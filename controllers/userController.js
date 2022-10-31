@@ -84,7 +84,9 @@ exports.StudentVerify = catchAsync(async (req, res, next) => {
 });
 
 exports.Faculty = catchAsync(async (req, res, next) => {
-  const faculty = await User.find({ role: { $ne: 'Student' } });
+  const faculty = await User.find({
+    $and: [{ role: { $ne: 'Student' } }, { role: { $ne: 'admin' } }],
+  });
 
   res.status(200).json({
     status: 'success',
