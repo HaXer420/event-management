@@ -53,8 +53,9 @@ const userSchema = mongoose.Schema(
       enum: ['admin', 'Student', 'Patron', 'HOD', 'Dean', 'unverified'],
       default: 'unverified',
     },
-    temprole: {
-      type: String,
+    isVerified: {
+      type: Boolean,
+      default: false,
     },
     passResetToken: String,
     passTokenExpire: Date,

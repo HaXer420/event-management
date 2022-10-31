@@ -55,7 +55,7 @@ exports.getMe = (req, res, next) => {
 exports.unverifiedstudents = catchAsync(async (req, res, next) => {
   const user = await User.aggregate([
     {
-      $match: { role: 'unverified', temprole: 'Student' },
+      $match: { isVerified: false },
     },
   ]);
 
@@ -77,17 +77,14 @@ exports.StudentVerify = catchAsync(async (req, res, next) => {
     return next(new AppError('Student Already Verified', 400));
   }
 
-  user.role = user.temprole;
-  user.temprole = undefined;
+  user.isVerified = true;
   await user.save({ validateBeforeSave: false });
 
   res.status(200).json({ message: 'Account Verified!', data: user });
 });
 
 exports.Faculty = catchAsync(async (req, res, next) => {
-  const faculty = await User.find({
-    $or: [{ role: { $ne: 'Student' } }, { temprole: { $ne: 'Student' } }],
-  });
+  const faculty = await User.find({ role: { $ne: 'Student' } });
 
   res.status(200).json({
     status: 'success',

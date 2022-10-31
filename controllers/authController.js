@@ -59,7 +59,7 @@ exports.signupstudent = catchAsync(async (req, res, next) => {
     password: req.body.password,
     passwordConfirm: req.body.passwordConfirm,
     passwordChangedAt: req.body.passwordChangedAt,
-    temprole: 'Student',
+    role: 'Student',
     photo: req.file.filename,
   });
 
@@ -88,6 +88,7 @@ exports.signupfaculty = catchAsync(async (req, res, next) => {
     passwordConfirm: req.body.passwordConfirm,
     passwordChangedAt: req.body.passwordChangedAt,
     role: req.body.role,
+    isVerified: true,
   });
 
   //   req.token = signInNewUser(newUser._id, 201, res);
