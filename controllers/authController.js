@@ -84,6 +84,7 @@ exports.signupfaculty = catchAsync(async (req, res, next) => {
     name: req.body.name,
     email: req.body.email,
     username: req.body.username,
+    regno: Math.random(20),
     photo: Math.random(20),
     password: req.body.password,
     passwordConfirm: req.body.passwordConfirm,
