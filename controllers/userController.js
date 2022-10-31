@@ -86,7 +86,7 @@ exports.StudentVerify = catchAsync(async (req, res, next) => {
 exports.Faculty = catchAsync(async (req, res, next) => {
   const faculty = await User.find({
     $and: [{ role: { $ne: 'Student' } }, { role: { $ne: 'admin' } }],
-  });
+  }).select('-regno -photo -active');
 
   res.status(200).json({
     status: 'success',
