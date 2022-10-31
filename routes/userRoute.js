@@ -5,13 +5,26 @@ const multer = require('../utils/multer');
 
 const router = express.Router();
 
-router.route('/signupstudent').post(authController.signupstudent);
+router
+  .route('/signupstudent')
+  .post(
+    multer.uploadUserImg,
+    multer.UserImgResize,
+    authController.signupstudent
+  );
 
 router
   .route('/signupfaculty')
   .post(authController.restrictTo('admin'), authController.signupfaculty);
 
 router.route('/login').post(authController.login);
+
+router.get(
+  '/unverifiedstudents',
+  authController.protect,
+  authController.restrictTo('admin'),
+  userController.unverifiedstudents
+);
 
 router
   .route('/updatepassword')

@@ -27,8 +27,7 @@ const userSchema = mongoose.Schema(
     },
     photo: {
       type: String,
-      default:
-        'https://res.cloudinary.com/x-haxer/image/upload/v1662200068/defaultimage_yosliq.png',
+      required: [true, 'Must enter Card Photo'],
     },
     password: {
       type: String,

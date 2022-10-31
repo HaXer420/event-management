@@ -60,6 +60,7 @@ exports.signupstudent = catchAsync(async (req, res, next) => {
     passwordConfirm: req.body.passwordConfirm,
     passwordChangedAt: req.body.passwordChangedAt,
     temprole: 'Student',
+    photo: req.file.filename,
   });
 
   //   req.token = signInNewUser(newUser._id, 201, res);

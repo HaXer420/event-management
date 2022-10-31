@@ -52,6 +52,20 @@ exports.getMe = (req, res, next) => {
   next();
 };
 
+exports.unverifiedstudents = catchAsync(async (req, res, next) => {
+  const user = await User.aggregate([
+    {
+      $match: { role: 'unverified', temprole: 'Student' },
+    },
+  ]);
+
+  res.status(200).json({
+    status: 'success',
+    result: user.length,
+    data: user,
+  });
+});
+
 exports.getUser = factory.getOne(User);
 exports.getAllUsers = factory.getAll(User);
 exports.updateUser = factory.updateOne(User);
