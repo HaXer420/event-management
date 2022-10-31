@@ -15,7 +15,11 @@ router
 
 router
   .route('/signupfaculty')
-  .post(authController.restrictTo('admin'), authController.signupfaculty);
+  .post(
+    authController.protect,
+    authController.restrictTo('admin'),
+    authController.signupfaculty
+  );
 
 router.route('/login').post(authController.login);
 
