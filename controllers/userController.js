@@ -66,6 +66,36 @@ exports.unverifiedstudents = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.StudentVerify = catchAsync(async (req, res, next) => {
+  const user = await User.findById(req.params.id);
+
+  if (!user) {
+    return next(new AppError('No User found with the given ID', 400));
+  }
+
+  if (!user.temprole) {
+    return next(new AppError('Student Already Verified', 400));
+  }
+
+  user.role = user.temprole;
+  user.temprole = undefined;
+  await user.save({ validateBeforeSave: false });
+
+  res.status(200).json({ message: 'Account Verified!', data: user });
+});
+
+exports.Faculty = catchAsync(async (req, res, next) => {
+  const faculty = await User.find({
+    $or: [{ role: { $ne: 'Student' } }, { temprole: { $ne: 'Student' } }],
+  });
+
+  res.status(200).json({
+    status: 'success',
+    result: faculty.length,
+    data: faculty,
+  });
+});
+
 exports.getUser = factory.getOne(User);
 exports.getAllUsers = factory.getAll(User);
 exports.updateUser = factory.updateOne(User);

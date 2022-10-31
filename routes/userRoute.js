@@ -26,6 +26,20 @@ router.get(
   userController.unverifiedstudents
 );
 
+router.get(
+  '/studentverify/:id',
+  authController.protect,
+  authController.restrictTo('admin'),
+  userController.StudentVerify
+);
+
+router.get(
+  '/allfaculty',
+  authController.protect,
+  authController.restrictTo('admin'),
+  userController.Faculty
+);
+
 router
   .route('/updatepassword')
   .patch(authController.protect, authController.updatePass);
