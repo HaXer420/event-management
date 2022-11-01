@@ -32,4 +32,46 @@ router.get(
   eventController.pendingHOD
 );
 
+router.get(
+  '/pendingDean',
+  authController.protect,
+  authController.restrictTo('Dean'),
+  eventController.pendingDean
+);
+
+router.get(
+  '/pendingAdmin',
+  authController.protect,
+  authController.restrictTo('admin'),
+  eventController.pendingAdmin
+);
+
+router.patch(
+  '/approvepatron/:id',
+  authController.protect,
+  authController.restrictTo('Patron'),
+  eventController.patronapprove
+);
+
+router.patch(
+  '/approvehod/:id',
+  authController.protect,
+  authController.restrictTo('HOD'),
+  eventController.hodapprove
+);
+
+router.patch(
+  '/approvedean/:id',
+  authController.protect,
+  authController.restrictTo('Dean'),
+  eventController.deanapprove
+);
+
+router.patch(
+  '/approveadmin/:id',
+  authController.protect,
+  authController.restrictTo('admin'),
+  eventController.adminapprove
+);
+
 module.exports = router;
