@@ -74,4 +74,6 @@ router.patch(
   eventController.adminapprove
 );
 
+router.get('/upcoming', eventController.upcomingevents);
+
 module.exports = router;

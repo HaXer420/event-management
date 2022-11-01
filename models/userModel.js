@@ -69,6 +69,13 @@ const userSchema = mongoose.Schema(
     toObject: { virtuals: true },
   }
 );
+
+userSchema.virtual('events', {
+  ref: 'Event',
+  foreignField: 'user',
+  localField: '_id',
+});
+
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
 

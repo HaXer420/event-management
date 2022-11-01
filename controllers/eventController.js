@@ -122,4 +122,18 @@ exports.adminapprove = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.upcomingevents = catchAsync(async (req, res, next) => {
+  const event = await Event.find({
+    $and: [
+      { isAdminApproved: { $eq: true } },
+      { startdate: { $lt: Date.now() } },
+    ],
+  });
+
+  res.status(200).json({
+    result: event.length,
+    data: event,
+  });
+});
+
 exports.deleteEvent = factory.deleteOne(Event);
