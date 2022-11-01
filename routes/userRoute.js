@@ -44,6 +44,13 @@ router.get(
   userController.Faculty
 );
 
+router.get(
+  '/allstudents',
+  authController.protect,
+  authController.restrictTo('admin'),
+  userController.Students
+);
+
 router
   .route('/updatepassword')
   .patch(authController.protect, authController.updatePass);
@@ -60,7 +67,19 @@ router
   .route('/getme')
   .get(authController.protect, userController.getMe, userController.getUser);
 
-router.delete('/deleteMe', authController.protect, userController.deleteMe);
+router.delete(
+  '/disableuser/:id',
+  authController.protect,
+  authController.restrictTo('admin'),
+  userController.disableUser
+);
+
+router.patch(
+  '/activeuser/:id',
+  authController.protect,
+  authController.restrictTo('admin'),
+  userController.ActiveUser
+);
 
 router.get(
   '/',
