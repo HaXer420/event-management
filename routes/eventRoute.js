@@ -14,7 +14,7 @@ router.post(
 router.delete(
   '/delete/:id',
   authController.protect,
-  authController.restrictTo('admin'),
+  authController.restrictTo('admin', 'Patron', 'Dean', 'HOD'),
   eventController.deleteEvent
 );
 
