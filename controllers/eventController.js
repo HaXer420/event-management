@@ -1,3 +1,4 @@
+const moment = require('moment');
 const Event = require('../models/eventModel');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
@@ -123,13 +124,10 @@ exports.adminapprove = catchAsync(async (req, res, next) => {
 });
 
 exports.upcomingevents = catchAsync(async (req, res, next) => {
+  const nowdate = moment().format();
   const event = await Event.find({
-    $and: [
-      { isAdminApproved: { $eq: true } },
-      { startdate: { $lt: Date.now() } },
-    ],
+    $and: [{ isAdminApproved: { $eq: true } }, { startdate: { $gt: nowdate } }],
   });
-
   res.status(200).json({
     result: event.length,
     data: event,
