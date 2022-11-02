@@ -137,3 +137,5 @@ exports.upcomingevents = catchAsync(async (req, res, next) => {
 });
 
 exports.deleteEvent = factory.deleteOne(Event);
+exports.getOneEVent = factory.getOne(Event);
+exports.getallevents = factory.getAll(Event);

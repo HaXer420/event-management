@@ -74,6 +74,19 @@ router.patch(
   eventController.adminapprove
 );
 
+router.get(
+  '/oneevent/:id',
+  authController.protect,
+  eventController.getOneEVent
+);
+
+router.get(
+  '/getallevents',
+  authController.protect,
+  authController.restrictTo('admin'),
+  eventController.getallevents
+);
+
 router.get('/upcoming', eventController.upcomingevents);
 
 module.exports = router;
