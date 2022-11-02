@@ -83,7 +83,7 @@ router.get(
 router.get(
   '/getallevents',
   authController.protect,
-  authController.restrictTo('admin'),
+  authController.restrictTo('admin', 'Dean', 'HOD', 'Patron'),
   eventController.getallevents
 );
 
