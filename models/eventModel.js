@@ -63,6 +63,7 @@ const eventSchema = mongoose.Schema(
       default: false,
     },
     Societyname: String,
+    Eventtype: String,
     createdAt: {
       type: Date,
       default: Date.now(),

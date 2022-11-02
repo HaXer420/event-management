@@ -87,6 +87,12 @@ router.get(
   eventController.getallevents
 );
 
+router.get(
+  '/eventbysociety/:id',
+  authController.protect,
+  eventController.eventbysociety
+);
+
 router.get('/upcoming', eventController.upcomingevents);
 
 module.exports = router;

@@ -134,6 +134,15 @@ exports.upcomingevents = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.eventbysociety = catchAsync(async (req, res, next) => {
+  const event = await Event.find({
+    $and: [
+      { isAdminApproved: { $eq: true } },
+      { Societyname: { $eq: req.params.id } },
+    ],
+  });
+});
+
 exports.deleteEvent = factory.deleteOne(Event);
 exports.getOneEVent = factory.getOne(Event);
 exports.getallevents = catchAsync(async (req, res, next) => {
