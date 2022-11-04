@@ -4,6 +4,7 @@ const crypto = require('crypto');
 const User = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
+const sendEmail = require('../utils/email');
 
 const signInToken = function (id) {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -236,7 +237,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
       message: 'Token sent to the email provided',
     });
   } catch (err) {
-    user.passwordResetToken = undefined;
+    user.passResetToken = undefined;
     user.passTokenExpire = undefined;
     await user.save({ validateBeforeSave: false });
 
