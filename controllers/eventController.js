@@ -171,13 +171,13 @@ exports.getallevents = catchAsync(async (req, res, next) => {
 });
 
 exports.eventbydate = catchAsync(async (req, res, next) => {
-  let result = req.params.id.slice(0, 15);
-  // console.log(result);
+  let result = req.params.id.slice(4, 15);
+  console.log(result);
   // result = new Date(result);
   // console.log(result);
 
   const StartDate = moment(result).format('YYYY-MM-DD');
-  // console.log(StartDate);
+  console.log(StartDate);
 
   const event = await Event.find({
     $and: [
