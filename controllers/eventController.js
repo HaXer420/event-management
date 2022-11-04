@@ -171,10 +171,19 @@ exports.getallevents = catchAsync(async (req, res, next) => {
 });
 
 exports.eventbydate = catchAsync(async (req, res, next) => {
-  const result = req.params.id.slice(0, 10);
+  // let result = req.params.id.slice(0, 15);
+  // console.log(result);
+  // result = new Date(result);
+  // console.log(result);
+
+  const StartDate = moment(req.params.id).format('YYYY-MM-DD');
+  // console.log(StartDate);
 
   const event = await Event.find({
-    $and: [{ isAdminApproved: { $eq: true } }, { startdate: { $eq: result } }],
+    $and: [
+      { isAdminApproved: { $eq: true } },
+      { startdate: { $eq: StartDate } },
+    ],
   });
   res.status(200).json({
     result: event.length,
