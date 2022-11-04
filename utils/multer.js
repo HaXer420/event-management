@@ -44,6 +44,7 @@ exports.UserImgResize = catchAsync(async (req, res, next) => {
   const result = await cloudinary.uploader.upload(file64.content);
 
   req.file.filename = result.url;
+  console.log(req.file.filename);
 
   next();
 });

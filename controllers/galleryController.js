@@ -4,8 +4,11 @@ const catchAsync = require('../utils/catchAsync');
 const factory = require('./factoryHandler');
 
 exports.uploadPhoto = catchAsync(async (req, res, next) => {
+  if (!req.file.filename) {
+    return next(new AppError('Image not found please upload again', 404));
+  }
   req.body.photo = req.file.filename;
-  const gallery = await Gallery.create(req.body.photo);
+  const gallery = await Gallery.create(req.body);
 
   res.status(201).json({
     status: 'Success',
