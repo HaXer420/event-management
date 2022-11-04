@@ -141,6 +141,14 @@ exports.eventbysociety = catchAsync(async (req, res, next) => {
       { Societyname: { $eq: req.params.id } },
     ],
   });
+
+  res.status(201).json({
+    status: 'Success',
+    result: event.length,
+    data: {
+      event,
+    },
+  });
 });
 
 exports.deleteEvent = factory.deleteOne(Event);
