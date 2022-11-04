@@ -95,4 +95,10 @@ router.get(
 
 router.get('/upcoming', eventController.upcomingevents);
 
+router.get(
+  '/eventbydate/:id',
+  authController.protect,
+  eventController.eventbydate
+);
+
 module.exports = router;

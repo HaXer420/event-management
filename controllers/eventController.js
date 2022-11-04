@@ -153,6 +153,7 @@ exports.eventbysociety = catchAsync(async (req, res, next) => {
 
 exports.deleteEvent = factory.deleteOne(Event);
 exports.getOneEVent = factory.getOne(Event);
+
 exports.getallevents = catchAsync(async (req, res, next) => {
   const event = await Event.find({
     $and: [
@@ -163,6 +164,19 @@ exports.getallevents = catchAsync(async (req, res, next) => {
     ],
   });
 
+  res.status(200).json({
+    result: event.length,
+    data: event,
+  });
+});
+
+exports.eventbydate = catchAsync(async (req, res, next) => {
+  const event = await Event.find({
+    $and: [
+      { isAdminApproved: { $eq: true } },
+      { startdate: { $eq: req.params.id } },
+    ],
+  });
   res.status(200).json({
     result: event.length,
     data: event,
