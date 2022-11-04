@@ -5,7 +5,7 @@ const factory = require('./factoryHandler');
 
 exports.uploadPhoto = catchAsync(async (req, res, next) => {
   req.body.photo = req.file.filename;
-  const gallery = await Gallery.create(req.body);
+  const gallery = await Gallery.create(req.body.photo);
 
   res.status(201).json({
     status: 'Success',
