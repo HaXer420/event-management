@@ -33,7 +33,7 @@ router.delete(
   '/deleteetypes/:id',
   authController.protect,
   authController.restrictTo('admin'),
-  societyandtypeController.getallTypes
+  societyandtypeController.deleteType
 );
 
 module.exports = router;
