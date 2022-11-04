@@ -171,11 +171,10 @@ exports.getallevents = catchAsync(async (req, res, next) => {
 });
 
 exports.eventbydate = catchAsync(async (req, res, next) => {
+  const result = req.params.id.slice(0, 10);
+
   const event = await Event.find({
-    $and: [
-      { isAdminApproved: { $eq: true } },
-      { startdate: { $eq: req.params.id } },
-    ],
+    $and: [{ isAdminApproved: { $eq: true } }, { startdate: { $eq: result } }],
   });
   res.status(200).json({
     result: event.length,
