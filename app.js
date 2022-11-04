@@ -18,7 +18,6 @@ app.use((req, res, next) => {
   next();
 });
 
-//  cors
 app.use(cors());
 
 app.options('*', cors());
