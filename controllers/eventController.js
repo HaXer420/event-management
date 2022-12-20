@@ -1,8 +1,8 @@
-const moment = require('moment');
-const Event = require('../models/eventModel');
-const AppError = require('../utils/appError');
-const catchAsync = require('../utils/catchAsync');
-const factory = require('./factoryHandler');
+const moment = require("moment");
+const Event = require("../models/eventModel");
+const AppError = require("../utils/appError");
+const catchAsync = require("../utils/catchAsync");
+const factory = require("./factoryHandler");
 
 exports.createEvent = catchAsync(async (req, res, next) => {
   if (!req.body.user) req.body.user = req.user.id;
@@ -10,7 +10,7 @@ exports.createEvent = catchAsync(async (req, res, next) => {
   const event = await Event.create(req.body);
 
   res.status(201).json({
-    message: 'success',
+    message: "success",
     data: event,
   });
 });
@@ -79,6 +79,7 @@ exports.pendingAdmin = catchAsync(async (req, res, next) => {
   });
 });
 
+// approve events
 exports.patronapprove = catchAsync(async (req, res, next) => {
   const event = await Event.findById(req.params.id);
 
@@ -86,7 +87,7 @@ exports.patronapprove = catchAsync(async (req, res, next) => {
   event.save({ validateBeforeSave: false });
 
   res.status(200).json({
-    message: 'Event Approved!',
+    message: "Event Approved!",
   });
 });
 
@@ -97,7 +98,7 @@ exports.hodapprove = catchAsync(async (req, res, next) => {
   event.save({ validateBeforeSave: false });
 
   res.status(200).json({
-    message: 'Event Approved!',
+    message: "Event Approved!",
   });
 });
 
@@ -108,7 +109,7 @@ exports.deanapprove = catchAsync(async (req, res, next) => {
   event.save({ validateBeforeSave: false });
 
   res.status(200).json({
-    message: 'Event Approved!',
+    message: "Event Approved!",
   });
 });
 
@@ -119,7 +120,52 @@ exports.adminapprove = catchAsync(async (req, res, next) => {
   event.save({ validateBeforeSave: false });
 
   res.status(200).json({
-    message: 'Event Approved!',
+    message: "Event Approved!",
+  });
+});
+
+// reject events
+exports.patronReject = catchAsync(async (req, res, next) => {
+  const event = await Event.findById(req.params.id);
+
+  event.isPatronApproved = false;
+  event.save({ validateBeforeSave: false });
+
+  res.status(200).json({
+    message: "Event Rejected!",
+  });
+});
+
+exports.hodReject = catchAsync(async (req, res, next) => {
+  const event = await Event.findById(req.params.id);
+
+  event.isHODApproved = false;
+  event.save({ validateBeforeSave: false });
+
+  res.status(200).json({
+    message: "Event Rejected!",
+  });
+});
+
+exports.deanReject = catchAsync(async (req, res, next) => {
+  const event = await Event.findById(req.params.id);
+
+  event.isDeanApproved = false;
+  event.save({ validateBeforeSave: false });
+
+  res.status(200).json({
+    message: "Event Rejected!",
+  });
+});
+
+exports.adminReject = catchAsync(async (req, res, next) => {
+  const event = await Event.findById(req.params.id);
+
+  event.isAdminApproved = false;
+  event.save({ validateBeforeSave: false });
+
+  res.status(200).json({
+    message: "Event Rejected!",
   });
 });
 
@@ -143,7 +189,7 @@ exports.eventbysociety = catchAsync(async (req, res, next) => {
   });
 
   res.status(201).json({
-    status: 'Success',
+    status: "Success",
     result: event.length,
     data: {
       event,
@@ -176,7 +222,7 @@ exports.eventbydate = catchAsync(async (req, res, next) => {
   // result = new Date(result);
   // console.log(result);
 
-  const StartDate = moment(result).format('YYYY-MM-DD');
+  const StartDate = moment(result).format("YYYY-MM-DD");
   // console.log(StartDate);
 
   const event = await Event.find({
