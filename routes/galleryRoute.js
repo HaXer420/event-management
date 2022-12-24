@@ -11,7 +11,16 @@ router.post(
   authController.restrictTo('admin'),
   multer.uploadUserImg,
   multer.UserImgResize,
-  galleryController.uploadPhoto
+  galleryController.createfolderuploadPhoto
+);
+
+router.patch(
+  '/uploadtofolder/:id',
+  authController.protect,
+  authController.restrictTo('admin'),
+  multer.uploadUserImg,
+  multer.UserImgResize,
+  galleryController.uploadPhototofolder
 );
 
 router.get('/', galleryController.getgallery);

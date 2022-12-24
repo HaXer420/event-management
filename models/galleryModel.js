@@ -1,7 +1,19 @@
 const mongoose = require('mongoose');
 
 const gallerySchema = mongoose.Schema({
-  photo: String,
+  foldername: {
+    type: String,
+    unique: [true, 'Name must be unique'],
+  },
+  photo: [
+    {
+      link: String,
+      createdAt: {
+        type: Date,
+        default: Date.now(),
+      },
+    },
+  ],
   createdAt: {
     type: Date,
     default: Date.now(),

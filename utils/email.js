@@ -28,3 +28,33 @@ const sendMail = async (options) => {
 };
 
 module.exports = sendMail;
+
+// new APIFeatures(
+//   Box.find({
+//     $and: [
+//       {
+//         $or: [
+//           {
+//             $and: [
+//               { 'pickUpDate.convertedDate': tomorrowDate },
+//               { ['exemptDays.' + tomorrowDay]: false },
+//             ],
+//           },
+//           {
+//             $and: [
+//               { 'pickUpDate.convertedDate': todayDate },
+//               { ['exemptDays.' + todayDay]: false },
+//               { 'timeToPickUp.to': { $lt: CurrentTime } },
+//             ],
+//           },
+//         ],
+//       },
+//       { isActive: true },
+//       { isResumed: true },
+//     ],
+//   }).populate({
+//     path: 'businessId',
+//     select: 'businessName img location salesTaxRate salesTaxId',
+//   }),
+//   req.query
+// ).paginate();

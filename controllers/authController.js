@@ -81,6 +81,11 @@ exports.signupstudent = catchAsync(async (req, res, next) => {
 });
 
 exports.signupfaculty = catchAsync(async (req, res, next) => {
+  const factemp = req.body.username;
+
+  if (!factemp.includes('.'))
+    return next(new AppError('Username must have dot(.) in it!', 400));
+
   const newUser = await User.create({
     name: req.body.name,
     email: req.body.email,

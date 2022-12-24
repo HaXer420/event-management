@@ -3,12 +3,39 @@ const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const factory = require('./factoryHandler');
 
-exports.uploadPhoto = catchAsync(async (req, res, next) => {
+exports.createfolderuploadPhoto = catchAsync(async (req, res, next) => {
   if (!req.file.filename) {
     return next(new AppError('Image not found please upload again', 404));
   }
-  req.body.photo = req.file.filename;
-  const gallery = await Gallery.create(req.body);
+
+  const folder = {
+    foldername: req.body.foldername,
+    photo: [
+      {
+        link: req.file.filename,
+      },
+    ],
+  };
+
+  console.log(folder);
+
+  const gallery = await Gallery.create(folder);
+
+  res.status(201).json({
+    status: 'Success',
+    Message: 'Photo Uploaded',
+    data: gallery,
+  });
+});
+
+exports.uploadPhototofolder = catchAsync(async (req, res, next) => {
+  if (!req.file.filename) {
+    return next(new AppError('Image not found please upload again', 404));
+  }
+
+  const gallery = await Gallery.findByIdAndUpdate(req.params.id, {
+    $push: { photo: { link: req.file.filename } },
+  });
 
   res.status(201).json({
     status: 'Success',
