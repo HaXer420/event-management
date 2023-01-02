@@ -5,12 +5,24 @@ const catchAsync = require('../utils/catchAsync');
 const factory = require('./factoryHandler');
 
 exports.createSociety = catchAsync(async (req, res, next) => {
-  req.body.patron = req.user.id;
-
   const society = await Society.create(req.body);
 
   res.status(201).json({
     Message: 'Society Created',
+    data: society,
+  });
+});
+
+exports.assignpatrontosociety = factory.updateOne(Society);
+
+exports.Societybydepartment = catchAsync(async (req, res, next) => {
+  const society = await Society.find({
+    department: { $eq: `${req.params.id}` },
+  });
+
+  res.status(200).json({
+    status: 'success',
+    result: society.length,
     data: society,
   });
 });

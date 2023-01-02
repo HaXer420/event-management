@@ -7,6 +7,32 @@ const eventSchema = mongoose.Schema(
     duration: {
       type: String,
     },
+    department: {
+      type: String,
+      enum: [
+        'BBA',
+        'CS',
+        'SE',
+        'Psychology',
+        'EE',
+        'CE',
+        'ME',
+        'Biosciences',
+        'Biotechnology',
+        'Microbiology',
+        'AF',
+        'Pharm.D',
+      ],
+    },
+    isPaid: {
+      type: Boolean,
+      default: false,
+    },
+    bank: {
+      bankname: String,
+      accnumber: String,
+      amount: Number,
+    },
     supervisfacname: String,
     guestspeakrname: String,
     student: [
@@ -62,19 +88,25 @@ const eventSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    Societyname: String,
-    Eventtype: String,
+    society: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Society',
+      required: [true, 'Event must belong to society'],
+    },
+    patron: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'User',
+      required: [true, 'Event must belong to society Patron'],
+    },
     createdAt: {
       type: Date,
       default: Date.now(),
     },
-    user: [
-      {
-        type: mongoose.Schema.ObjectId,
-        ref: 'User',
-        required: [true, 'Post must belong to user'],
-      },
-    ],
+    user: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'User',
+      required: [true, 'Post must belong to user'],
+    },
   },
   {
     toJSON: { virtuals: true },
@@ -85,6 +117,14 @@ const eventSchema = mongoose.Schema(
 eventSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'user',
+    select: 'name',
+  });
+  this.populate({
+    path: 'society',
+    select: 'society -patron',
+  });
+  this.populate({
+    path: 'patron',
     select: 'name',
   });
   next();

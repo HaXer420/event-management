@@ -109,4 +109,11 @@ router
     userController.deleteUser
   );
 
+router.get(
+  '/patronbydepartment/:id',
+  authController.protect,
+  authController.restrictTo('admin'),
+  userController.Patronbydepartment
+);
+
 module.exports = router;

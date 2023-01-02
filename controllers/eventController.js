@@ -6,6 +6,13 @@ const factory = require('./factoryHandler');
 
 exports.createEvent = catchAsync(async (req, res, next) => {
   if (!req.body.user) req.body.user = req.user.id;
+  req.body.contctprsnname = req.user.name;
+  req.body.contctpersonregno = req.user.regno;
+
+  req.body.startdate = moment(req.body.startdate, 'YYYY-MM-DD');
+
+  if (req.body.startdate < Date.now())
+    return next(new AppError('You cannot choose past date for event!', 400));
 
   // const result = req.params.id.slice(4, 15);
   // console.log(result);
@@ -39,18 +46,35 @@ exports.createEvent = catchAsync(async (req, res, next) => {
 });
 
 exports.pendingPatron = catchAsync(async (req, res, next) => {
-  const event = await Event.find({
+  const eventpaid = await Event.find({
     $and: [
+      { department: { $eq: `${req.user.department}` } },
+      { patron: { $eq: `${req.user.id}` } },
       { isAdminApproved: { $eq: false } },
       { isHODApproved: { $eq: false } },
       { isPatronApproved: { $eq: false } },
       { isDeanApproved: { $eq: false } },
+      { isPaid: { $eq: true } },
+    ],
+  });
+
+  const eventfree = await Event.find({
+    $and: [
+      { department: { $eq: `${req.user.department}` } },
+      { patron: { $eq: `${req.user.id}` } },
+      { isAdminApproved: { $eq: false } },
+      { isHODApproved: { $eq: false } },
+      { isPatronApproved: { $eq: false } },
+      { isDeanApproved: { $eq: false } },
+      { isPaid: { $eq: false } },
     ],
   });
 
   res.status(200).json({
-    result: event.length,
-    data: event,
+    resultpaid: eventpaid.length,
+    resultfree: eventfree.length,
+    PaidEvents: eventpaid,
+    FreeEvents: eventfree,
   });
 });
 

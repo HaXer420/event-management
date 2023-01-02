@@ -8,7 +8,7 @@ const router = express.Router();
 router.post(
   '/createsociety',
   authController.protect,
-  authController.restrictTo('Patron'),
+  authController.restrictTo('admin'),
   societyandtypeController.createSociety
 );
 
@@ -34,6 +34,18 @@ router.delete(
   authController.protect,
   authController.restrictTo('admin'),
   societyandtypeController.deleteType
+);
+
+router.patch(
+  '/assignpat/:id',
+  authController.protect,
+  authController.restrictTo('admin'),
+  societyandtypeController.assignpatrontosociety
+);
+
+router.get(
+  '/societbydepartment/:id',
+  societyandtypeController.Societybydepartment
 );
 
 module.exports = router;

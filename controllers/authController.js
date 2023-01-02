@@ -47,6 +47,7 @@ const signinUser = (user, statuscode, res) => {
     data: {
       user: user.id,
       role: user.role,
+      department: user.department,
     },
   });
 };

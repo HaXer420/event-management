@@ -104,6 +104,21 @@ exports.Faculty = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.Patronbydepartment = catchAsync(async (req, res, next) => {
+  const patron = await User.find({
+    $and: [
+      { role: { $eq: 'Patron' } },
+      { department: { $eq: `${req.params.id}` } },
+    ],
+  }).select('-regno -photo -active');
+
+  res.status(200).json({
+    status: 'success',
+    result: patron.length,
+    data: patron,
+  });
+});
+
 exports.Students = catchAsync(async (req, res, next) => {
   const faculty = await User.find({ role: { $eq: 'Student' } }).select(
     '-username -active'

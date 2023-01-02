@@ -3,19 +3,31 @@ const mongoose = require('mongoose');
 const societySchema = mongoose.Schema(
   {
     society: String,
-    scope: [
-      {
-        description: String,
-      },
-    ],
+    scope: [String],
     createdAt: {
       type: Date,
       default: Date.now(),
     },
+    department: {
+      type: String,
+      enum: [
+        'BBA',
+        'CS',
+        'SE',
+        'Psychology',
+        'EE',
+        'CE',
+        'ME',
+        'Biosciences',
+        'Biotechnology',
+        'Microbiology',
+        'AF',
+        'Pharm.D',
+      ],
+    },
     patron: {
       type: mongoose.Schema.ObjectId,
       ref: 'User',
-      required: [true, 'Society must belong to Patron'],
     },
   },
   {
@@ -26,7 +38,7 @@ const societySchema = mongoose.Schema(
 societySchema.pre(/^find/, function (next) {
   this.populate({
     path: 'patron',
-    select: 'name',
+    select: 'name department',
   });
   next();
 });
