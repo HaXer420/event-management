@@ -79,50 +79,93 @@ exports.pendingPatron = catchAsync(async (req, res, next) => {
 });
 
 exports.pendingHOD = catchAsync(async (req, res, next) => {
-  const event = await Event.find({
+  const eventpaid = await Event.find({
     $and: [
+      { department: { $eq: `${req.user.department}` } },
       { isAdminApproved: { $eq: false } },
       { isHODApproved: { $eq: false } },
       { isPatronApproved: { $eq: true } },
       { isDeanApproved: { $eq: false } },
+      { isPaid: { $eq: true } },
+    ],
+  });
+
+  const eventfree = await Event.find({
+    $and: [
+      { department: { $eq: `${req.user.department}` } },
+      { isAdminApproved: { $eq: false } },
+      { isHODApproved: { $eq: false } },
+      { isPatronApproved: { $eq: true } },
+      { isDeanApproved: { $eq: false } },
+      { isPaid: { $eq: false } },
     ],
   });
 
   res.status(200).json({
-    result: event.length,
-    data: event,
+    resultpaid: eventpaid.length,
+    resultfree: eventfree.length,
+    PaidEvents: eventpaid,
+    FreeEvents: eventfree,
   });
 });
 
 exports.pendingDean = catchAsync(async (req, res, next) => {
-  const event = await Event.find({
+  const eventpaid = await Event.find({
     $and: [
+      { department: { $eq: `${req.user.department}` } },
       { isAdminApproved: { $eq: false } },
       { isHODApproved: { $eq: true } },
       { isPatronApproved: { $eq: true } },
       { isDeanApproved: { $eq: false } },
+      { isPaid: { $eq: true } },
+    ],
+  });
+
+  const eventfree = await Event.find({
+    $and: [
+      { department: { $eq: `${req.user.department}` } },
+      { isAdminApproved: { $eq: false } },
+      { isHODApproved: { $eq: true } },
+      { isPatronApproved: { $eq: true } },
+      { isDeanApproved: { $eq: false } },
+      { isPaid: { $eq: false } },
     ],
   });
 
   res.status(200).json({
-    result: event.length,
-    data: event,
+    resultpaid: eventpaid.length,
+    resultfree: eventfree.length,
+    PaidEvents: eventpaid,
+    FreeEvents: eventfree,
   });
 });
 
 exports.pendingAdmin = catchAsync(async (req, res, next) => {
-  const event = await Event.find({
+  const eventpaid = await Event.find({
     $and: [
       { isAdminApproved: { $eq: false } },
       { isHODApproved: { $eq: true } },
       { isPatronApproved: { $eq: true } },
       { isDeanApproved: { $eq: true } },
+      { isPaid: { $eq: true } },
+    ],
+  });
+
+  const eventfree = await Event.find({
+    $and: [
+      { isAdminApproved: { $eq: false } },
+      { isHODApproved: { $eq: true } },
+      { isPatronApproved: { $eq: true } },
+      { isDeanApproved: { $eq: true } },
+      { isPaid: { $eq: false } },
     ],
   });
 
   res.status(200).json({
-    result: event.length,
-    data: event,
+    resultpaid: eventpaid.length,
+    resultfree: eventfree.length,
+    PaidEvents: eventpaid,
+    FreeEvents: eventfree,
   });
 });
 
@@ -219,7 +262,11 @@ exports.adminReject = catchAsync(async (req, res, next) => {
 exports.upcomingevents = catchAsync(async (req, res, next) => {
   const nowdate = moment().format();
   const event = await Event.find({
-    $and: [{ isAdminApproved: { $eq: true } }, { startdate: { $gt: nowdate } }],
+    $and: [
+      { isAdminApproved: { $eq: true } },
+      { startdate: { $gt: nowdate } },
+      { department: { $eq: `${req.user.department}` } },
+    ],
   });
   res.status(200).json({
     result: event.length,
@@ -228,38 +275,89 @@ exports.upcomingevents = catchAsync(async (req, res, next) => {
 });
 
 exports.eventbysociety = catchAsync(async (req, res, next) => {
-  const event = await Event.find({
+  const eventpaid = await Event.find({
     $and: [
       { isAdminApproved: { $eq: true } },
-      { Societyname: { $eq: req.params.id } },
+      { society: { $eq: req.params.id } },
+      { isPaid: { $eq: true } },
+    ],
+  });
+  const eventfree = await Event.find({
+    $and: [
+      { isAdminApproved: { $eq: true } },
+      { society: { $eq: req.params.id } },
+      { isPaid: { $eq: false } },
     ],
   });
 
-  res.status(201).json({
-    status: 'Success',
-    result: event.length,
-    data: {
-      event,
-    },
+  res.status(200).json({
+    resultpaid: eventpaid.length,
+    resultfree: eventfree.length,
+    PaidEvents: eventpaid,
+    FreeEvents: eventfree,
   });
 });
 
 exports.deleteEvent = factory.deleteOne(Event);
 exports.getOneEVent = factory.getOne(Event);
 
-exports.getallevents = catchAsync(async (req, res, next) => {
-  const event = await Event.find({
+exports.getallapprovedeventsbyfaculty = catchAsync(async (req, res, next) => {
+  const eventpaid = await Event.find({
+    $and: [
+      { department: { $eq: `${req.user.department}` } },
+      { isAdminApproved: { $eq: true } },
+      { isHODApproved: { $eq: true } },
+      { isPatronApproved: { $eq: true } },
+      { isDeanApproved: { $eq: true } },
+      { isPaid: { $eq: true } },
+    ],
+  });
+
+  const eventfree = await Event.find({
+    $and: [
+      { department: { $eq: `${req.user.department}` } },
+      { isAdminApproved: { $eq: true } },
+      { isHODApproved: { $eq: true } },
+      { isPatronApproved: { $eq: true } },
+      { isDeanApproved: { $eq: true } },
+      { isPaid: { $eq: false } },
+    ],
+  });
+
+  res.status(200).json({
+    resultpaid: eventpaid.length,
+    resultfree: eventfree.length,
+    PaidEvents: eventpaid,
+    FreeEvents: eventfree,
+  });
+});
+
+exports.getallapprovedeventsbyadmin = catchAsync(async (req, res, next) => {
+  const eventpaid = await Event.find({
     $and: [
       { isAdminApproved: { $eq: true } },
       { isHODApproved: { $eq: true } },
       { isPatronApproved: { $eq: true } },
       { isDeanApproved: { $eq: true } },
+      { isPaid: { $eq: true } },
+    ],
+  });
+
+  const eventfree = await Event.find({
+    $and: [
+      { isAdminApproved: { $eq: true } },
+      { isHODApproved: { $eq: true } },
+      { isPatronApproved: { $eq: true } },
+      { isDeanApproved: { $eq: true } },
+      { isPaid: { $eq: false } },
     ],
   });
 
   res.status(200).json({
-    result: event.length,
-    data: event,
+    resultpaid: eventpaid.length,
+    resultfree: eventfree.length,
+    PaidEvents: eventpaid,
+    FreeEvents: eventfree,
   });
 });
 
@@ -269,17 +367,30 @@ exports.eventbydate = catchAsync(async (req, res, next) => {
   // result = new Date(result);
   // console.log(result);
 
-  const StartDate = moment(result).format('YYYY-MM-DD');
-  // console.log(StartDate);
+  const StartDate = moment(result).format('MM-DD-YYYY');
+  console.log(StartDate);
 
-  const event = await Event.find({
+  const eventpaid = await Event.find({
     $and: [
+      { department: { $eq: `${req.user.department}` } },
       { isAdminApproved: { $eq: true } },
       { startdate: { $eq: StartDate } },
+      { isPaid: { $eq: true } },
+    ],
+  });
+
+  const eventfree = await Event.find({
+    $and: [
+      { department: { $eq: `${req.user.department}` } },
+      { isAdminApproved: { $eq: true } },
+      { startdate: { $eq: StartDate } },
+      { isPaid: { $eq: false } },
     ],
   });
   res.status(200).json({
-    result: event.length,
-    data: event,
+    resultpaid: eventpaid.length,
+    resultfree: eventfree.length,
+    PaidEvents: eventpaid,
+    FreeEvents: eventfree,
   });
 });

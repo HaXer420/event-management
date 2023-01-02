@@ -1,130 +1,137 @@
-const express = require("express");
-const eventController = require("../controllers/eventController");
-const authController = require("../controllers/authController");
+const express = require('express');
+const eventController = require('../controllers/eventController');
+const authController = require('../controllers/authController');
 
 const router = express.Router();
 
 router.post(
-  "/create",
+  '/create',
   authController.protect,
-  authController.restrictTo("Student"),
+  authController.restrictTo('Student'),
   eventController.createEvent
 );
 
 router.delete(
-  "/delete/:id",
+  '/delete/:id',
   authController.protect,
-  authController.restrictTo("admin", "Patron", "Dean", "HOD"),
+  authController.restrictTo('admin', 'Patron', 'Dean', 'HOD'),
   eventController.deleteEvent
 );
 
 router.get(
-  "/pendingpatron",
+  '/pendingpatron',
   authController.protect,
-  authController.restrictTo("Patron"),
+  authController.restrictTo('Patron'),
   eventController.pendingPatron
 );
 
 router.get(
-  "/pendingHOD",
+  '/pendingHOD',
   authController.protect,
-  authController.restrictTo("HOD"),
+  authController.restrictTo('HOD'),
   eventController.pendingHOD
 );
 
 router.get(
-  "/pendingDean",
+  '/pendingDean',
   authController.protect,
-  authController.restrictTo("Dean"),
+  authController.restrictTo('Dean'),
   eventController.pendingDean
 );
 
 router.get(
-  "/pendingAdmin",
+  '/pendingAdmin',
   authController.protect,
-  authController.restrictTo("admin"),
+  authController.restrictTo('admin'),
   eventController.pendingAdmin
 );
 
 router.patch(
-  "/approvepatron/:id",
+  '/approvepatron/:id',
   authController.protect,
-  authController.restrictTo("Patron"),
+  authController.restrictTo('Patron'),
   eventController.patronapprove
 );
 
 router.patch(
-  "/approvehod/:id",
+  '/approvehod/:id',
   authController.protect,
-  authController.restrictTo("HOD"),
+  authController.restrictTo('HOD'),
   eventController.hodapprove
 );
 
 router.patch(
-  "/approvedean/:id",
+  '/approvedean/:id',
   authController.protect,
-  authController.restrictTo("Dean"),
+  authController.restrictTo('Dean'),
   eventController.deanapprove
 );
 
 router.patch(
-  "/approveadmin/:id",
+  '/approveadmin/:id',
   authController.protect,
-  authController.restrictTo("admin"),
+  authController.restrictTo('admin'),
   eventController.adminapprove
 );
 
 router.patch(
-  "/rejectpatron/:id",
+  '/rejectpatron/:id',
   authController.protect,
-  authController.restrictTo("Patron"),
+  authController.restrictTo('Patron'),
   eventController.patronReject
 );
 
 router.patch(
-  "/rejecthod/:id",
+  '/rejecthod/:id',
   authController.protect,
-  authController.restrictTo("HOD"),
+  authController.restrictTo('HOD'),
   eventController.hodReject
 );
 
 router.patch(
-  "/rejectdean/:id",
+  '/rejectdean/:id',
   authController.protect,
-  authController.restrictTo("Dean"),
+  authController.restrictTo('Dean'),
   eventController.deanReject
 );
 
 router.patch(
-  "/rejectadmin/:id",
+  '/rejectadmin/:id',
   authController.protect,
-  authController.restrictTo("admin"),
+  authController.restrictTo('admin'),
   eventController.adminReject
 );
 
 router.get(
-  "/oneevent/:id",
+  '/oneevent/:id',
   authController.protect,
   eventController.getOneEVent
 );
 
 router.get(
-  "/getallevents",
+  '/getalleventsbyfacultyapproved',
   authController.protect,
-  authController.restrictTo("admin", "Dean", "HOD", "Patron"),
-  eventController.getallevents
+  authController.restrictTo('Dean', 'HOD'),
+  eventController.getallapprovedeventsbyfaculty
 );
 
 router.get(
-  "/eventbysociety/:id",
+  '/getalleventsbyadminapproved',
+  authController.protect,
+  authController.restrictTo('admin'),
+  eventController.getallapprovedeventsbyadmin
+);
+
+router.get(
+  '/eventbysociety/:id',
   authController.protect,
   eventController.eventbysociety
 );
 
-router.get("/upcoming", eventController.upcomingevents);
+router.get('/upcoming', authController.protect, eventController.upcomingevents);
 
 router.get(
-  "/eventbydate/:id",
+  '/eventbydate/:id',
   authController.protect,
   eventController.eventbydate
 );
