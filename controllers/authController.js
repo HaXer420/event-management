@@ -48,6 +48,7 @@ const signinUser = (user, statuscode, res) => {
       user: user.id,
       role: user.role,
       department: user.department,
+      isVerified: user.isVerified,
     },
   });
 };
