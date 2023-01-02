@@ -116,4 +116,11 @@ router.get(
   userController.Patronbydepartment
 );
 
+router.get(
+  '/oneuser/:id',
+  authController.protect,
+  authController.restrictTo('admn'),
+  userController.getUser
+);
+
 module.exports = router;
