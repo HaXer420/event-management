@@ -45,3 +45,5 @@ exports.uploadPhototofolder = catchAsync(async (req, res, next) => {
 });
 
 exports.getgallery = factory.getAll(Gallery);
+
+exports.getfolder = factory.getOne(Gallery);

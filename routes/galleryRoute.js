@@ -25,4 +25,6 @@ router.patch(
 
 router.get('/', galleryController.getgallery);
 
+router.get('/folder/:id', galleryController.getfolder);
+
 module.exports = router;
