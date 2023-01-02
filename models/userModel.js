@@ -29,6 +29,23 @@ const userSchema = mongoose.Schema(
       type: String,
       required: [true, 'Must enter Card Photo'],
     },
+    department: {
+      type: String,
+      enum: [
+        'BBA',
+        'CS',
+        'SE',
+        'Psychology',
+        'EE',
+        'CE',
+        'ME',
+        'Biosciences',
+        'Biotechnology',
+        'Microbiology',
+        'AF',
+        'Pharm.D',
+      ],
+    },
     password: {
       type: String,
       required: [true, 'Must have a password'],

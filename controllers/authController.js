@@ -60,6 +60,7 @@ exports.signupstudent = catchAsync(async (req, res, next) => {
     password: req.body.password,
     passwordConfirm: req.body.passwordConfirm,
     passwordChangedAt: req.body.passwordChangedAt,
+    department: req.body.department,
     role: 'Student',
     photo: req.file.filename,
   });
@@ -94,7 +95,7 @@ exports.signupfaculty = catchAsync(async (req, res, next) => {
     photo: Math.random(20),
     password: req.body.password,
     passwordConfirm: req.body.passwordConfirm,
-    passwordChangedAt: req.body.passwordChangedAt,
+    department: req.body.department,
     role: req.body.role,
     isVerified: true,
   });
@@ -136,7 +137,6 @@ exports.login = catchAsync(async (req, res, next) => {
   } else if (!user.includes('.')) {
     regno = req.body.user;
   }
-
   // const user = await User.findOne({ email }).select('+password');
 
   const user1 = await User.findOne({

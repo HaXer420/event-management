@@ -5,6 +5,8 @@ const catchAsync = require('../utils/catchAsync');
 const factory = require('./factoryHandler');
 
 exports.createSociety = catchAsync(async (req, res, next) => {
+  req.body.patron = req.user.id;
+
   const society = await Society.create(req.body);
 
   res.status(201).json({

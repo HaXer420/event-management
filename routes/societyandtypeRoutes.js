@@ -8,7 +8,7 @@ const router = express.Router();
 router.post(
   '/createsociety',
   authController.protect,
-  authController.restrictTo('admin'),
+  authController.restrictTo('Patron'),
   societyandtypeController.createSociety
 );
 
