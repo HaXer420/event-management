@@ -111,7 +111,7 @@ router.get(
 router.get(
   '/getalleventsbyfacultyapproved',
   authController.protect,
-  authController.restrictTo('Dean', 'HOD'),
+  authController.restrictTo('Dean', 'HOD', 'Patron', 'Student'),
   eventController.getallapprovedeventsbyfaculty
 );
 
