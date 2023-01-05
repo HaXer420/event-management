@@ -218,7 +218,8 @@ exports.adminapprove = catchAsync(async (req, res, next) => {
 exports.patronReject = catchAsync(async (req, res, next) => {
   const event = await Event.findById(req.params.id);
 
-  event.isPatronApproved = false;
+  event.feedback = req.body.feedback;
+  event.isRejected = true;
   event.save({ validateBeforeSave: false });
 
   res.status(200).json({
@@ -229,7 +230,8 @@ exports.patronReject = catchAsync(async (req, res, next) => {
 exports.hodReject = catchAsync(async (req, res, next) => {
   const event = await Event.findById(req.params.id);
 
-  event.isHODApproved = false;
+  event.feedback = req.body.feedback;
+  event.isPatronApproved = false;
   event.save({ validateBeforeSave: false });
 
   res.status(200).json({
@@ -240,18 +242,8 @@ exports.hodReject = catchAsync(async (req, res, next) => {
 exports.deanReject = catchAsync(async (req, res, next) => {
   const event = await Event.findById(req.params.id);
 
-  event.isDeanApproved = false;
-  event.save({ validateBeforeSave: false });
-
-  res.status(200).json({
-    message: 'Event Rejected!',
-  });
-});
-
-exports.adminReject = catchAsync(async (req, res, next) => {
-  const event = await Event.findById(req.params.id);
-
-  event.isAdminApproved = false;
+  event.feedback = req.body.feedback;
+  event.isHODApproved = false;
   event.save({ validateBeforeSave: false });
 
   res.status(200).json({
@@ -261,16 +253,27 @@ exports.adminReject = catchAsync(async (req, res, next) => {
 
 exports.upcomingevents = catchAsync(async (req, res, next) => {
   const nowdate = moment().format();
-  const event = await Event.find({
+  const eventpaid = await Event.find({
     $and: [
       { isAdminApproved: { $eq: true } },
       { startdate: { $gt: nowdate } },
       { department: { $eq: `${req.user.department}` } },
+      { isPaid: { $eq: true } },
+    ],
+  });
+  const eventfree = await Event.find({
+    $and: [
+      { isAdminApproved: { $eq: true } },
+      { startdate: { $gt: nowdate } },
+      { department: { $eq: `${req.user.department}` } },
+      { isPaid: { $eq: false } },
     ],
   });
   res.status(200).json({
-    result: event.length,
-    data: event,
+    resultpaid: eventpaid.length,
+    resultfree: eventfree.length,
+    PaidEvents: eventpaid,
+    FreeEvents: eventfree,
   });
 });
 

@@ -98,6 +98,10 @@ const eventSchema = mongoose.Schema(
       ref: 'User',
       required: [true, 'Event must belong to society Patron'],
     },
+    isRejected: {
+      type: Boolean,
+      default: false,
+    },
     createdAt: {
       type: Date,
       default: Date.now(),
@@ -107,6 +111,20 @@ const eventSchema = mongoose.Schema(
       ref: 'User',
       required: [true, 'Post must belong to user'],
     },
+    feedback: [
+      {
+        user: {
+          type: mongoose.Schema.ObjectId,
+          ref: 'User',
+          required: [true, 'Feedback must belong to User'],
+        },
+        message: String,
+        createdAt: {
+          type: Date,
+          default: Date.now(),
+        },
+      },
+    ],
   },
   {
     toJSON: { virtuals: true },
@@ -126,6 +144,10 @@ eventSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'patron',
     select: 'name',
+  });
+  this.populate({
+    path: 'feedback',
+    select: 'name role',
   });
   next();
 });

@@ -95,13 +95,6 @@ router.patch(
   eventController.deanReject
 );
 
-router.patch(
-  '/rejectadmin/:id',
-  authController.protect,
-  authController.restrictTo('admin'),
-  eventController.adminReject
-);
-
 router.get(
   '/oneevent/:id',
   authController.protect,
