@@ -373,6 +373,9 @@ exports.eventbydate = catchAsync(async (req, res, next) => {
   const StartDate = moment(result).format('MM-DD-YYYY');
   console.log(StartDate);
 
+  if (StartDate < Date.now())
+    return next(new AppError('You cannot choose past date for event!', 400));
+
   const eventpaid = await Event.find({
     $and: [
       { department: { $eq: `${req.user.department}` } },
