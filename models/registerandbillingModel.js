@@ -45,7 +45,7 @@ registerSchema.pre(/^find/, function (next) {
   });
   this.populate({
     path: 'event',
-    select: 'title -society -patron -user -feedback',
+    select: 'title -society -patron -user',
   });
   this.populate({
     path: 'patron',
