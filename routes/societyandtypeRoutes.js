@@ -45,6 +45,7 @@ router.patch(
 
 router.get(
   '/societbydepartment/:id',
+  authController.protect,
   societyandtypeController.Societybydepartment
 );
 
