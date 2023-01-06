@@ -54,6 +54,7 @@ exports.pendingPatron = catchAsync(async (req, res, next) => {
       { isHODApproved: { $eq: false } },
       { isPatronApproved: { $eq: false } },
       { isDeanApproved: { $eq: false } },
+      { isRejected: { $eq: false } },
       { isPaid: { $eq: true } },
     ],
   });
@@ -66,6 +67,7 @@ exports.pendingPatron = catchAsync(async (req, res, next) => {
       { isHODApproved: { $eq: false } },
       { isPatronApproved: { $eq: false } },
       { isDeanApproved: { $eq: false } },
+      { isRejected: { $eq: false } },
       { isPaid: { $eq: false } },
     ],
   });
@@ -220,7 +222,6 @@ exports.patronReject = catchAsync(async (req, res, next) => {
 
   const event = await Event.updateOne(
     { _id: req.params.id },
-
     { $push: { feedback: feeedback }, isRejected: true }
   );
   console.log(event);
@@ -240,7 +241,6 @@ exports.hodReject = catchAsync(async (req, res, next) => {
 
   const event = await Event.updateOne(
     { _id: req.params.id },
-    { isPatronApproved: false },
     { $push: { feedback: feeedback }, isPatronApproved: false }
   );
 
@@ -258,7 +258,6 @@ exports.deanReject = catchAsync(async (req, res, next) => {
 
   const event = await Event.updateOne(
     { _id: req.params.id },
-    { isHODApproved: false },
     { $push: { feedback: feeedback }, isHODApproved: false }
   );
 
