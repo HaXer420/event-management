@@ -17,7 +17,10 @@ exports.assignpatrontosociety = factory.updateOne(Society);
 
 exports.Societybydepartment = catchAsync(async (req, res, next) => {
   const society = await Society.find({
-    department: { $eq: `${req.params.id}` },
+    $or: [
+      { department: { $eq: `${req.user.department}` } },
+      { department: { $eq: 'None' } },
+    ],
   });
 
   res.status(200).json({
