@@ -48,7 +48,12 @@ exports.createEvent = catchAsync(async (req, res, next) => {
 exports.pendingPatron = catchAsync(async (req, res, next) => {
   const eventpaid = await Event.find({
     $and: [
-      { department: { $eq: `${req.user.department}` } },
+      {
+        $or: [
+          { department: { $eq: `${req.user.department}` } },
+          { department: { $eq: 'None' } },
+        ],
+      },
       { patron: { $eq: `${req.user.id}` } },
       { isAdminApproved: { $eq: false } },
       { isHODApproved: { $eq: false } },
@@ -61,7 +66,12 @@ exports.pendingPatron = catchAsync(async (req, res, next) => {
 
   const eventfree = await Event.find({
     $and: [
-      { department: { $eq: `${req.user.department}` } },
+      {
+        $or: [
+          { department: { $eq: `${req.user.department}` } },
+          { department: { $eq: 'None' } },
+        ],
+      },
       { patron: { $eq: `${req.user.id}` } },
       { isAdminApproved: { $eq: false } },
       { isHODApproved: { $eq: false } },
@@ -83,7 +93,12 @@ exports.pendingPatron = catchAsync(async (req, res, next) => {
 exports.pendingHOD = catchAsync(async (req, res, next) => {
   const eventpaid = await Event.find({
     $and: [
-      { department: { $eq: `${req.user.department}` } },
+      {
+        $or: [
+          { department: { $eq: `${req.user.department}` } },
+          { department: { $eq: 'None' } },
+        ],
+      },
       { isAdminApproved: { $eq: false } },
       { isHODApproved: { $eq: false } },
       { isPatronApproved: { $eq: true } },
@@ -94,7 +109,12 @@ exports.pendingHOD = catchAsync(async (req, res, next) => {
 
   const eventfree = await Event.find({
     $and: [
-      { department: { $eq: `${req.user.department}` } },
+      {
+        $or: [
+          { department: { $eq: `${req.user.department}` } },
+          { department: { $eq: 'None' } },
+        ],
+      },
       { isAdminApproved: { $eq: false } },
       { isHODApproved: { $eq: false } },
       { isPatronApproved: { $eq: true } },
@@ -114,7 +134,12 @@ exports.pendingHOD = catchAsync(async (req, res, next) => {
 exports.pendingDean = catchAsync(async (req, res, next) => {
   const eventpaid = await Event.find({
     $and: [
-      { department: { $eq: `${req.user.department}` } },
+      {
+        $or: [
+          { department: { $eq: `${req.user.department}` } },
+          { department: { $eq: 'None' } },
+        ],
+      },
       { isAdminApproved: { $eq: false } },
       { isHODApproved: { $eq: true } },
       { isPatronApproved: { $eq: true } },
@@ -125,7 +150,12 @@ exports.pendingDean = catchAsync(async (req, res, next) => {
 
   const eventfree = await Event.find({
     $and: [
-      { department: { $eq: `${req.user.department}` } },
+      {
+        $or: [
+          { department: { $eq: `${req.user.department}` } },
+          { department: { $eq: 'None' } },
+        ],
+      },
       { isAdminApproved: { $eq: false } },
       { isHODApproved: { $eq: true } },
       { isPatronApproved: { $eq: true } },
@@ -275,7 +305,12 @@ exports.upcomingevents = catchAsync(async (req, res, next) => {
     $and: [
       { isAdminApproved: { $eq: true } },
       { startdate: { $gt: nowdate } },
-      { department: { $eq: `${req.user.department}` } },
+      {
+        $or: [
+          { department: { $eq: `${req.user.department}` } },
+          { department: { $eq: 'None' } },
+        ],
+      },
       { isPaid: { $eq: true } },
     ],
   });
@@ -283,7 +318,12 @@ exports.upcomingevents = catchAsync(async (req, res, next) => {
     $and: [
       { isAdminApproved: { $eq: true } },
       { startdate: { $gt: nowdate } },
-      { department: { $eq: `${req.user.department}` } },
+      {
+        $or: [
+          { department: { $eq: `${req.user.department}` } },
+          { department: { $eq: 'None' } },
+        ],
+      },
       { isPaid: { $eq: false } },
     ],
   });
@@ -325,7 +365,12 @@ exports.getOneEVent = factory.getOne(Event);
 exports.getallapprovedeventsbyfaculty = catchAsync(async (req, res, next) => {
   const eventpaid = await Event.find({
     $and: [
-      { department: { $eq: `${req.user.department}` } },
+      {
+        $or: [
+          { department: { $eq: `${req.user.department}` } },
+          { department: { $eq: 'None' } },
+        ],
+      },
       { isAdminApproved: { $eq: true } },
       { isHODApproved: { $eq: true } },
       { isPatronApproved: { $eq: true } },
@@ -336,7 +381,12 @@ exports.getallapprovedeventsbyfaculty = catchAsync(async (req, res, next) => {
 
   const eventfree = await Event.find({
     $and: [
-      { department: { $eq: `${req.user.department}` } },
+      {
+        $or: [
+          { department: { $eq: `${req.user.department}` } },
+          { department: { $eq: 'None' } },
+        ],
+      },
       { isAdminApproved: { $eq: true } },
       { isHODApproved: { $eq: true } },
       { isPatronApproved: { $eq: true } },
@@ -396,7 +446,12 @@ exports.eventbydate = catchAsync(async (req, res, next) => {
 
   const eventpaid = await Event.find({
     $and: [
-      { department: { $eq: `${req.user.department}` } },
+      {
+        $or: [
+          { department: { $eq: `${req.user.department}` } },
+          { department: { $eq: 'None' } },
+        ],
+      },
       { isAdminApproved: { $eq: true } },
       { startdate: { $eq: StartDate } },
       { isPaid: { $eq: true } },
@@ -405,7 +460,12 @@ exports.eventbydate = catchAsync(async (req, res, next) => {
 
   const eventfree = await Event.find({
     $and: [
-      { department: { $eq: `${req.user.department}` } },
+      {
+        $or: [
+          { department: { $eq: `${req.user.department}` } },
+          { department: { $eq: 'None' } },
+        ],
+      },
       { isAdminApproved: { $eq: true } },
       { startdate: { $eq: StartDate } },
       { isPaid: { $eq: false } },

@@ -22,6 +22,7 @@ const eventSchema = mongoose.Schema(
         'Microbiology',
         'AF',
         'Pharm.D',
+        'None',
       ],
     },
     isPaid: {

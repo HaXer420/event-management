@@ -44,6 +44,7 @@ const userSchema = mongoose.Schema(
         'Microbiology',
         'AF',
         'Pharm.D',
+        'None',
       ],
     },
     password: {

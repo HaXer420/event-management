@@ -23,6 +23,7 @@ const societySchema = mongoose.Schema(
         'Microbiology',
         'AF',
         'Pharm.D',
+        'None',
       ],
     },
     patron: {
