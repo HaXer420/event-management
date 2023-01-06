@@ -216,13 +216,17 @@ exports.adminapprove = catchAsync(async (req, res, next) => {
 
 // reject events
 exports.patronReject = catchAsync(async (req, res, next) => {
-  const event = await Event.findById(req.params.id);
-
   const feeedback = [{ user: req.user.id, message: req.body.message }];
 
-  event.feedback = feeedback;
-  event.isRejected = true;
-  event.save({ validateBeforeSave: false });
+  const event = await Event.updateOne(
+    { _id: req.params.id },
+    { isRejected: true },
+    { $push: { feedback: feeedback } }
+  );
+
+  // event.feedback = feeedback;
+  // event.isRejected = true;
+  // event.save({ validateBeforeSave: false });
 
   res.status(200).json({
     message: 'Event Rejected!',
@@ -230,13 +234,19 @@ exports.patronReject = catchAsync(async (req, res, next) => {
 });
 
 exports.hodReject = catchAsync(async (req, res, next) => {
-  const event = await Event.findById(req.params.id);
+  // const event = await Event.findById(req.params.id);
 
   const feeedback = [{ user: req.user.id, message: req.body.message }];
 
-  event.feedback = feeedback;
-  event.isPatronApproved = false;
-  event.save({ validateBeforeSave: false });
+  const event = await Event.updateOne(
+    { _id: req.params.id },
+    { isPatronApproved: false },
+    { $push: { feedback: feeedback } }
+  );
+
+  // event.feedback = feeedback;
+  // event.isPatronApproved = false;
+  // event.save({ validateBeforeSave: false });
 
   res.status(200).json({
     message: 'Event Rejected!',
@@ -244,13 +254,16 @@ exports.hodReject = catchAsync(async (req, res, next) => {
 });
 
 exports.deanReject = catchAsync(async (req, res, next) => {
-  const event = await Event.findById(req.params.id);
-
   const feeedback = [{ user: req.user.id, message: req.body.message }];
 
-  event.feedback = feeedback;
-  event.isHODApproved = false;
-  event.save({ validateBeforeSave: false });
+  const event = await Event.updateOne(
+    { _id: req.params.id },
+    { isHODApproved: false },
+    { $push: { feedback: feeedback } }
+  );
+
+  // event.isHODApproved = false;
+  // event.save({ validateBeforeSave: false });
 
   res.status(200).json({
     message: 'Event Rejected!',
