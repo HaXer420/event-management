@@ -30,6 +30,12 @@ app.use((req, res, next) => {
   next();
 });
 
+////////////////////
+//// cron handler
+require('./controllers/cronjobsHandler');
+
+/////////////////////
+// routes
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/events', eventRouter);
 app.use('/api/v1/societyandtypes', societyandtypesRouter);
