@@ -146,7 +146,7 @@ eventSchema.pre(/^find/, function (next) {
     select: 'name',
   });
   this.populate({
-    path: 'feedback',
+    path: 'feedback.user',
     select: 'name role',
   });
   next();
