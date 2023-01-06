@@ -218,7 +218,9 @@ exports.adminapprove = catchAsync(async (req, res, next) => {
 exports.patronReject = catchAsync(async (req, res, next) => {
   const event = await Event.findById(req.params.id);
 
-  event.feedback = req.body.feedback;
+  const feeedback = [{ user: req.user.id, message: req.body.message }];
+
+  event.feedback = feeedback;
   event.isRejected = true;
   event.save({ validateBeforeSave: false });
 
@@ -230,7 +232,9 @@ exports.patronReject = catchAsync(async (req, res, next) => {
 exports.hodReject = catchAsync(async (req, res, next) => {
   const event = await Event.findById(req.params.id);
 
-  event.feedback = req.body.feedback;
+  const feeedback = [{ user: req.user.id, message: req.body.message }];
+
+  event.feedback = feeedback;
   event.isPatronApproved = false;
   event.save({ validateBeforeSave: false });
 
@@ -242,7 +246,9 @@ exports.hodReject = catchAsync(async (req, res, next) => {
 exports.deanReject = catchAsync(async (req, res, next) => {
   const event = await Event.findById(req.params.id);
 
-  event.feedback = req.body.feedback;
+  const feeedback = [{ user: req.user.id, message: req.body.message }];
+
+  event.feedback = feeedback;
   event.isHODApproved = false;
   event.save({ validateBeforeSave: false });
 
