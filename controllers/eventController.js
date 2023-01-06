@@ -220,10 +220,10 @@ exports.patronReject = catchAsync(async (req, res, next) => {
 
   const event = await Event.updateOne(
     { _id: req.params.id },
-    { isRejected: true },
-    { $push: { feedback: feeedback } }
-  );
 
+    { $push: { feedback: feeedback }, isRejected: true }
+  );
+  console.log(event);
   // event.feedback = feeedback;
   // event.isRejected = true;
   // event.save({ validateBeforeSave: false });
@@ -241,7 +241,7 @@ exports.hodReject = catchAsync(async (req, res, next) => {
   const event = await Event.updateOne(
     { _id: req.params.id },
     { isPatronApproved: false },
-    { $push: { feedback: feeedback } }
+    { $push: { feedback: feeedback }, isPatronApproved: false }
   );
 
   // event.feedback = feeedback;
@@ -259,7 +259,7 @@ exports.deanReject = catchAsync(async (req, res, next) => {
   const event = await Event.updateOne(
     { _id: req.params.id },
     { isHODApproved: false },
-    { $push: { feedback: feeedback } }
+    { $push: { feedback: feeedback }, isHODApproved: false }
   );
 
   // event.isHODApproved = false;
