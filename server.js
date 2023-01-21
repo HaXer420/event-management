@@ -20,7 +20,7 @@ mongoose
     console.log('Connection Failed');
   });
 
-const port = process.env.PORT || 6000;
+const port = process.env.PORT || 3001;
 
 console.log(`Server running in ${process.env.NODE_ENV} Mode`);
 

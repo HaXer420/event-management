@@ -1,12 +1,12 @@
-const express = require('express');
-const userController = require('../controllers/userController');
-const authController = require('../controllers/authController');
-const multer = require('../utils/multer');
+const express = require("express");
+const userController = require("../controllers/userController");
+const authController = require("../controllers/authController");
+const multer = require("../utils/multer");
 
 const router = express.Router();
 
 router
-  .route('/signupstudent')
+  .route("/signupstudent")
   .post(
     multer.uploadUserImg,
     multer.UserImgResize,
@@ -14,52 +14,59 @@ router
   );
 
 router
-  .route('/signupfaculty')
+  .route("/signupfaculty")
   .post(
     authController.protect,
-    authController.restrictTo('admin'),
+    authController.restrictTo("admin"),
     authController.signupfaculty
   );
 
-router.route('/login').post(authController.login);
+router.route("/login").post(authController.login);
 
 router.get(
-  '/unverifiedstudents',
+  "/unverifiedstudents",
   authController.protect,
-  authController.restrictTo('admin'),
+  authController.restrictTo("admin"),
   userController.unverifiedstudents
 );
 
 router.get(
-  '/studentverify/:id',
+  "/studentverify/:id",
   authController.protect,
-  authController.restrictTo('admin'),
+  authController.restrictTo("admin"),
   userController.StudentVerify
 );
 
 router.get(
-  '/allfaculty',
+  "/studentdecline/:id",
   authController.protect,
-  authController.restrictTo('admin'),
+  authController.restrictTo("admin"),
+  userController.StudentDecline
+);
+
+router.get(
+  "/allfaculty",
+  authController.protect,
+  authController.restrictTo("admin"),
   userController.Faculty
 );
 
 router.get(
-  '/allstudents',
+  "/allstudents",
   authController.protect,
-  authController.restrictTo('admin'),
+  authController.restrictTo("admin"),
   userController.Students
 );
 
-router.route('/forgotpassword').post(authController.forgotPassword);
-router.route('/resetpassword/:token').patch(authController.resetPassword);
+router.route("/forgotpassword").post(authController.forgotPassword);
+router.route("/resetpassword/:token").patch(authController.resetPassword);
 
 router
-  .route('/updatepassword')
+  .route("/updatepassword")
   .patch(authController.protect, authController.updatePass);
 
 router.patch(
-  '/updateMe',
+  "/updateMe",
   authController.protect,
   multer.uploadUserImg,
   multer.UserImgResize,
@@ -67,59 +74,59 @@ router.patch(
 );
 
 router
-  .route('/getme')
+  .route("/getme")
   .get(authController.protect, userController.getMe, userController.getUser);
 
 router.delete(
-  '/disableuser/:id',
+  "/disableuser/:id",
   authController.protect,
-  authController.restrictTo('admin'),
+  authController.restrictTo("admin"),
   userController.disableUser
 );
 
 router.patch(
-  '/activeuser/:id',
+  "/activeuser/:id",
   authController.protect,
-  authController.restrictTo('admin'),
+  authController.restrictTo("admin"),
   userController.ActiveUser
 );
 
 router.get(
-  '/',
+  "/",
   authController.protect,
-  authController.restrictTo('admin'),
+  authController.restrictTo("admin"),
   userController.getAllUsers
 );
 
 router
-  .route('/:id')
+  .route("/:id")
   .get(
     authController.protect,
-    authController.restrictTo('admin'),
+    authController.restrictTo("admin"),
     userController.getUser
   )
   .patch(
     authController.protect,
-    authController.restrictTo('admin'),
+    authController.restrictTo("admin"),
     userController.updateUser
   )
   .delete(
     authController.protect,
-    authController.restrictTo('admin'),
+    authController.restrictTo("admin"),
     userController.deleteUser
   );
 
 router.get(
-  '/patronbydepartment/:id',
+  "/patronbydepartment/:id",
   authController.protect,
-  authController.restrictTo('admin'),
+  authController.restrictTo("admin"),
   userController.Patronbydepartment
 );
 
 router.get(
-  '/oneuser/:id',
+  "/oneuser/:id",
   authController.protect,
-  authController.restrictTo('admn'),
+  authController.restrictTo("admn"),
   userController.getUser
 );
 
