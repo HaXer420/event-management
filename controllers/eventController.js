@@ -305,6 +305,7 @@ exports.upcomingevents = catchAsync(async (req, res, next) => {
     $and: [
       { isAdminApproved: { $eq: true } },
       { startdate: { $gt: nowdate } },
+      { user: { $ne: req.user.id } },
       {
         $or: [
           { department: { $eq: `${req.user.department}` } },
@@ -318,6 +319,7 @@ exports.upcomingevents = catchAsync(async (req, res, next) => {
     $and: [
       { isAdminApproved: { $eq: true } },
       { startdate: { $gt: nowdate } },
+      { user: { $ne: req.user.id } },
       {
         $or: [
           { department: { $eq: `${req.user.department}` } },
