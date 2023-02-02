@@ -306,12 +306,12 @@ exports.upcomingevents = catchAsync(async (req, res, next) => {
       { isAdminApproved: { $eq: true } },
       { startdate: { $gt: nowdate } },
       // { user: { $ne: req.user.id } },
-      {
-        $or: [
-          { department: { $eq: `${req.user.department}` } },
-          { department: { $eq: "None" } },
-        ],
-      },
+      // {
+      //   $or: [
+      //     { department: { $eq: `${req.user.department}` } },
+      //     { department: { $eq: "None" } },
+      //   ],
+      // },
       { isPaid: { $eq: true } },
     ],
   });
@@ -320,12 +320,12 @@ exports.upcomingevents = catchAsync(async (req, res, next) => {
       { isAdminApproved: { $eq: true } },
       { startdate: { $gt: nowdate } },
       // { user: { $ne: req.user.id } },
-      {
-        $or: [
-          { department: { $eq: `${req.user.department}` } },
-          { department: { $eq: "None" } },
-        ],
-      },
+      // {
+      //   $or: [
+      //     { department: { $eq: `${req.user.department}` } },
+      //     { department: { $eq: "None" } },
+      //   ],
+      // },
       { isPaid: { $eq: false } },
     ],
   });

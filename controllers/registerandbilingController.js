@@ -14,8 +14,8 @@ exports.createRegister = catchAsync(async (req, res, next) => {
   if (!fevent) return next(new AppError("Event not found", 400));
 
   // console.log({ fevent });
-  if (fevent.user.id === req.user.id)
-    return next(new AppError("You Cannot Register on your own event", 400));
+  // if (fevent.user.id === req.user.id)
+  //   return next(new AppError("You Cannot Register on your own event", 400));
 
   if (fevent.isPaid === false)
     return next(new AppError("Event is Free no need to register!", 400));
@@ -78,9 +78,18 @@ exports.RejectregistersbyPatron = catchAsync(async (req, res, next) => {
   });
 });
 
+// exports.MyRegisters = catchAsync(async (req, res, next) => {
+//   const myregs = await Register.find({ student: { $eq: req.user.id } });
+//   res.status(200).json({
+//     status: "Success",
+//     total: myregs.length,
+//     data: myregs,
+//   });
+// });
 exports.MyRegisters = catchAsync(async (req, res, next) => {
-  const myregs = await Register.find({ student: { $eq: req.user.id } });
-
+  const myregs = await Register.find({
+    student: { $in: [req.user.id] },
+  });
   res.status(200).json({
     status: "Success",
     total: myregs.length,
