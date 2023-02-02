@@ -36,7 +36,7 @@ const registerSchema = mongoose.Schema({
   },
 });
 
-registerSchema.index({ event: 1, user: 1 }, { unique: [true] });
+registerSchema.index({ event: 1, student: 1 }, { unique: true });
 
 registerSchema.pre(/^find/, function (next) {
   this.populate({
